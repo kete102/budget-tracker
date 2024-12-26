@@ -1,37 +1,37 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
 import {
   ClerkProvider,
   SignedIn,
   SignedOut,
   SignInButton,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "Budget Tracker",
-  description: "Track your incomes and expenses.",
-};
+  title: 'Budget Tracker',
+  description: 'Track your incomes and expenses.',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang='en'>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
@@ -45,5 +45,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }
