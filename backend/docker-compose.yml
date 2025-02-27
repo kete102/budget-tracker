@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=budget-tracker
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - budget-tracker-network
+    ports:
+      - "5432:5432"
+
+networks:
+  budget-tracker-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+
