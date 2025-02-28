@@ -5,7 +5,9 @@ import axios from 'axios'
 import { useNavigate } from 'react-router'
 
 const BASE_URL =
-	processEnv.MODE === 'development' ? 'http://localhost:4000/api' : ''
+	processEnv.MODE === 'development'
+		? 'http://localhost:4000/api'
+		: 'https://your-production-api.com/api'
 
 const apiClient = axios.create({
 	baseURL: BASE_URL,
@@ -40,7 +42,7 @@ apiClient.interceptors.response.use(
 		if (error.reponse && error.response.status === 401) {
 			try {
 				//NOTE: refres accesToken try
-				const response = await axios.post('/auth/refresh')
+				const response = await apiClient.post('/auth/refresh')
 
 				if (response.status === 200) {
 					const newAccessToken = response.data.accessToken
