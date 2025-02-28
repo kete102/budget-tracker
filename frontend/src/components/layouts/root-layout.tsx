@@ -1,13 +1,7 @@
-import express from 'express'
-import { loginUser, refreshToken, registerUser } from '../controllers/auth.controller'
-import { verifyAccessToken } from '../middlewares/verifyJWT'
+import { ReactNode } from 'react'
 
-const authRouter = express.Router()
+const RootLayout = ({ children }: { children: ReactNode }) => {
+	return <div className='h-screen bg-neutral-950 p-4'>{children}</div>
+}
 
-authRouter.post('/register', registerUser)
-authRouter.post('/login', loginUser)
-authRouter.post('/logout', verifyAccessToken)
-authRouter.post('/refresh', verifyAccessToken, refreshToken)
-
-export default authRouter
-
+export default RootLayout
