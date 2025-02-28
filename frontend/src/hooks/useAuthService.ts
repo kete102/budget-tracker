@@ -1,28 +1,29 @@
-import { register } from "@/services/auth/auth-service"
-import { RegisterUser } from "@/services/auth/types"
-import { useNavigate } from "react-router"
-import { useAuth } from "./useAuth"
+import { RegisterUser } from '@/services/auth/types'
+import { useNavigate } from 'react-router'
+import { useAuth } from './useAuth'
+import { register } from '@/services/auth/auth-service'
+import toast from 'react-hot-toast'
 
 export function useAuthService() {
-  const navigate = useNavigate()
-  const { login } = useAuth()
+	const navigate = useNavigate()
+	const { login } = useAuth()
 
-  const registerUser = async (userData: RegisterUser) => {
-    try {
-      const user = await register(userData)
+	const registerUser = async (userData: RegisterUser) => {
+		try {
+			const result = await register(userData)
 
-      //NOTE: Setear el usuario en el contexto global
-      //FIX: user esta llegando como undefined
-      login(user)
-      navigate({ pathname: '/dashboard' })
+			if (!result.success) {
+				toast.error(result.error)
+			} else {
+				login(result.data)
+				navigate({ pathname: '/dashboard' })
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-
-  return {
-    registerUser
-  }
+	return {
+		registerUser,
+	}
 }

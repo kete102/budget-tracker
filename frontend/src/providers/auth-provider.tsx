@@ -1,23 +1,22 @@
-import { AuthContext } from "@/contexts/auth"
-import { User } from "@/services/auth/types"
-import { ReactNode, useState } from "react"
+import { AuthContext } from '@/contexts/auth'
+import { ReactNode, useState } from 'react'
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
+	const [token, setToken] = useState<string | null>(null)
 
-  const login = (user: User) => {
-    setUser(user)
-  }
+	const login = (newToken: string) => {
+		setToken(newToken)
+	}
 
-  const logout = () => {
-    setUser(null)
-  }
+	const logout = () => {
+		setToken(null)
+	}
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </ AuthContext.Provider>
-  )
+	return (
+		<AuthContext.Provider value={{ token, login, logout }}>
+			{children}
+		</AuthContext.Provider>
+	)
 }
 
 export default AuthProvider
