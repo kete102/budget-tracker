@@ -4,7 +4,7 @@ import Github from "@/components/icons/github-icon"
 function Footer() {
 
   return (
-    <footer className="w-full max-w-5xl mx-auto text-center flex items-center justify-between sticky bg-neutral-100/5 p-4 rounded-md">
+    <footer className="w-full  mx-auto text-center flex items-center justify-between sticky bg-neutral-100/5 p-4 rounded-md">
       <p className='text-neutral-200 text-lg font-medium'>Budget Tracker &copy;</p>
       <h3 className="text-neutral-200 text-md font-medium">
         Made by {''}

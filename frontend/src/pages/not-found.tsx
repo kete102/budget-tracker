@@ -4,7 +4,7 @@ import { Link } from "react-router"
 
 function NotFound() {
   return (
-    <div className="w-full min-h-screen text-center flex flex-col p-2">
+    <div className="w-full h-full text-center flex flex-col p-2">
       <section className="flex grow flex-col items-center text-center justify-center">
         <Header />
         <h1 className="text-neutral-400 text-xl mt-4">Oops, something wrong ocurred</h1>
