@@ -1,13 +1,14 @@
 import express from 'express'
-import { loginUser, refreshToken, registerUser } from '../controllers/auth.controller'
+import AuthController from '../controllers/auth.controller'
 import { verifyAccessToken } from '../middlewares/verifyJWT'
 
 const authRouter = express.Router()
 
-authRouter.post('/register', registerUser)
-authRouter.post('/login', loginUser)
+authRouter.get('/check-auth', AuthController.checkAuth)
+authRouter.post('/register', AuthController.registerUser)
+authRouter.post('/login', AuthController.loginUser)
 authRouter.post('/logout', verifyAccessToken)
-authRouter.post('/refresh', verifyAccessToken, refreshToken)
+authRouter.post('/refresh', verifyAccessToken, AuthController.refreshToken)
 
 export default authRouter
 

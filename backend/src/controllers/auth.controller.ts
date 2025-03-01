@@ -3,103 +3,139 @@ import { generateAccessToken, generateRefreshToken } from '../lib/generateJWT'
 import { loginSchema, registerSchema, UserModel } from '../models/user.model'
 import { processEnv } from '../config'
 import jwt, { VerifyErrors } from 'jsonwebtoken'
-import { User } from '../db/schemas/user.schema'
+import { PublicUser, User } from '../db/schemas/user.schema'
 
-export async function registerUser(req: Request, res: Response) {
-	const { email, username, password } = req.body
-	//NOTE: Validate the body
-	const validation = registerSchema.safeParse({
-		email,
-		username,
-		password,
-	})
+const JWT_REFRESH = processEnv.JWT_SECRET_REFRESH
 
-	if (!validation.success) {
-		console.log(validation.error.message.toString())
-		return res.status(400).json({ message: 'Fields validation error' })
-	}
+class AuthController {
+	static async registerUser(req: Request, res: Response) {
+		const { email, username, password } = req.body
+		//NOTE: Validate the body
+		const validation = registerSchema.safeParse({
+			email,
+			username,
+			password,
+		})
 
-	console.log('Create user')
-	const user = await UserModel.create({ email, username, password })
-	console.log('User created: ', user)
-
-	//NOTE: Crear jwt acccesToken
-	const accessToken = generateAccessToken({
-		id: user.id,
-		email: user.email,
-		username: user.username,
-	})
-
-	const refreshToken = generateRefreshToken({ id: user.id })
-
-	res.cookie('refresh_token', refreshToken, {
-		httpOnly: true,
-		secure: processEnv.NODE_ENV === 'production',
-		sameSite: 'strict',
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-	})
-
-	return res.status(200).json({ accessToken })
-}
-export async function refreshToken(req: Request, res: Response) {
-	const refreshToken = req.cookies.refresh_token
-	if (!refreshToken) return res.status(401).json({ message: 'Unauthorized' })
-
-	jwt.verify(
-		refreshToken,
-		process.env.REFRESH_TOKEN_SECRET,
-		(err: VerifyErrors, user: User) => {
-			if (err) return res.status(403).json({ message: 'Invalid token' })
-
-			const newAccessToken = generateAccessToken({
-				id: user.id,
-				email: user.email,
-				username: user.username,
-			})
-
-			const newRefreshToken = generateRefreshToken({ id: user.id })
-
-			res.cookie('refresh_token', newRefreshToken, {
-				httpOnly: true,
-				secure: process.env.NODE_ENV === 'production',
-				sameSite: 'strict',
-				maxAge: 7 * 24 * 60 * 60 * 1000,
-			})
-
-			return res.status(200).json({ newAccessToken })
+		if (!validation.success) {
+			console.log(validation.error.message.toString())
+			return res.status(400).json({ message: 'Fields validation error' })
 		}
-	)
-}
-export async function loginUser(req: Request, res: Response) {
-	const { email, password } = req.body
-	//NOTE: Validate the body
-	const validation = loginSchema.safeParse({
-		email,
-		password,
-	})
 
-	if (!validation.success) {
-		console.log(validation.error.message.toString())
-		return res.status(400).json({ message: 'Fields validation error' })
+		const user = await UserModel.create({ email, username, password })
+
+		//NOTE: Crear jwt acccesToken
+		const accessToken = generateAccessToken({
+			id: user.id,
+			email: user.email,
+			username: user.username,
+		})
+
+		const refreshToken = generateRefreshToken({ id: user.id, email: user.email, username: user.username })
+
+		res.cookie('refresh_token', refreshToken, {
+			httpOnly: true,
+			secure: processEnv.NODE_ENV === 'production',
+			sameSite: 'strict',
+			maxAge: 7 * 24 * 60 * 60 * 1000,
+		})
+
+		return res.status(200).json({ accessToken })
 	}
 
-	const user = await UserModel.login({ email, password })
+	static async refreshToken(req: Request, res: Response) {
+		try {
+			const refreshToken = req.cookies.refresh_token
+			if (!refreshToken) return res.status(401).json({ message: 'Unauthorized' })
 
-	//NOTE: Crear jwt acccesToken
-	const accessToken = generateAccessToken({
-		id: user.id,
-		email: user.email,
-		username: user.username,
-	})
+			jwt.verify(
+				refreshToken,
+				process.env.REFRESH_TOKEN_SECRET,
+				(err: VerifyErrors, user: User) => {
+					if (err) return res.status(403).json({ message: 'Invalid token' })
 
-	const refreshToken = generateRefreshToken({ id: user.id })
+					const newAccessToken = generateAccessToken({
+						id: user.id,
+						email: user.email,
+						username: user.username,
+					})
 
-	res.cookie('refresh_token', refreshToken, {
-		httpOnly: true,
-		secure: processEnv.NODE_ENV === 'production',
-		sameSite: 'strict',
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-	})
+					const newRefreshToken = generateRefreshToken({ id: user.id, email: user.email, username: user.username })
 
-	return res.status(200).json({ accessToken })
+					res.cookie('refresh_token', newRefreshToken, {
+						httpOnly: true,
+						secure: process.env.NODE_ENV === 'production',
+						sameSite: 'strict',
+						maxAge: 7 * 24 * 60 * 60 * 1000,
+					})
+
+					return res.status(200).json({ newAccessToken })
+				}
+			)
+		} catch (error) {
+			console.log('Refresh Token error: ', error)
+			res.clearCookie('refresh_token')
+			return res.status(401).json({ message: "Invalid refresh token" })
+		}
+	}
+	static async loginUser(req: Request, res: Response) {
+		const { email, password } = req.body
+		//NOTE: Validate the body
+		const validation = loginSchema.safeParse({
+			email,
+			password,
+		})
+
+		if (!validation.success) {
+			console.log(validation.error.message.toString())
+			return res.status(400).json({ message: 'Fields validation error' })
+		}
+
+		const user = await UserModel.login({ email, password })
+
+		//NOTE: Crear jwt acccesToken
+		const accessToken = generateAccessToken({
+			id: user.id,
+			email: user.email,
+			username: user.username,
+		})
+
+		const refreshToken = generateRefreshToken({ id: user.id, email: user.email, username: user.username })
+
+		res.cookie('refresh_token', refreshToken, {
+			httpOnly: true,
+			secure: processEnv.NODE_ENV === 'production',
+			sameSite: 'strict',
+			maxAge: 7 * 24 * 60 * 60 * 1000,
+		})
+
+		return res.status(200).json({ accessToken })
+	}
+
+	static async checkAuth(req: Request, res: Response) {
+		const refreshToken = req.cookies?.refresh_token; // Accede al refresh token desde las cookies
+
+		if (!refreshToken) {
+			console.log('No refresh token provided')
+			return res.status(401).json({ message: "Unauthorized" });
+		}
+
+		try {
+			//NOTE: check refresh token
+			const user = jwt.verify(refreshToken, JWT_REFRESH) as PublicUser;
+
+			//NOTE: if refresh token is valid, generate new access token
+			const newAccessToken = generateAccessToken({ id: user.id, email: user.email, username: user.username });
+
+			//NOTE: send the new access token to the client
+			return res.json({ accessToken: newAccessToken });
+
+		} catch (error) {
+			console.error("Refresh token error:", error);
+			return res.status(403).json({ message: "Unauthorized" });
+		}
+
+	}
 }
+
+export default AuthController
