@@ -1,28 +1,27 @@
 import jwt from 'jsonwebtoken'
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { processEnv } from "../config";
+import { PublicUser } from '../db/schemas/user.schema';
+import { AuthRequest } from './types';
 
 const JWT_ACCESS = processEnv.JWT_SECRET_ACCESS
 
-export const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
+export const verifyAccessToken = (req: AuthRequest, res: Response, next: NextFunction) => {
 	const authHeaders = req.headers.authorization
 
-	if (!authHeaders || !authHeaders.startsWith('Bearer ')) {
+	if (!authHeaders?.startsWith('Bearer ')) {
 		return res.status(401).json({ message: "Unauthorized" })
 	}
 
 	const token = authHeaders.split(' ')[1]
 
 	try {
-
-		const isValid = jwt.verify(token, JWT_ACCESS)
-		if (!isValid) {
-			return res.status(401).json({ error: "Unauthorized" })
-		}
+		const user = jwt.verify(token, JWT_ACCESS) as PublicUser
+		req.user = user
 		next()
 	} catch (error) {
 		console.log(error)
-		return res.status(401).json({ error: "Unauthorized" })
+		return res.status(403).json({ error: "Unauthorized" })
 	}
 }
 
