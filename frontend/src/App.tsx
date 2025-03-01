@@ -7,7 +7,7 @@ import HomePage from '@/pages/home-page'
 import NotFound from '@/pages/not-found'
 import AuthProvider from '@/providers/auth-provider'
 import DashboardPage from '@/pages/dashboard-page'
-import RootLayout from './components/layouts/root-layout'
+import RootLayout from '@/components/layouts/root-layout'
 
 function App() {
 	return (
@@ -16,11 +16,11 @@ function App() {
 				<RootLayout>
 					<Routes>
 						{/* Public Routes*/}
+						<Route
+							path='/'
+							element={<HomePage />}
+						/>
 						<Route element={<PublicPagesLayout />}>
-							<Route
-								path='/'
-								element={<HomePage />}
-							/>
 							<Route
 								path='/sign-in'
 								element={<SignInPage />}
@@ -32,7 +32,9 @@ function App() {
 						</Route>
 
 						{/* Private Routes*/}
-						<Route element={<PrivatePagesLayout />}>
+						<Route element={
+							<PrivatePagesLayout />
+						}>
 							<Route
 								path='/dashboard'
 								element={<DashboardPage />}
@@ -40,6 +42,8 @@ function App() {
 							<Route path='/transactions' />
 							<Route path='/user-settings' />
 						</Route>
+
+						{/* 404 Not found */}
 						<Route
 							path='*'
 							element={<NotFound />}
