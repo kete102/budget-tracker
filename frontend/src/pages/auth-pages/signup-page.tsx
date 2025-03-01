@@ -16,14 +16,15 @@ const formOpts = formOptions({
 });
 
 function SignUpPage() {
-	const { registerUser } = useAuthService()
+	const { signUpUser } = useAuthService()
 
 	const form = useForm({
 		...formOpts,
 		onSubmit: async ({ value }) => {
-			registerUser(value)
+			signUpUser(value)
 		}
 	});
+
 
 	return (
 		<div className="h-full w-full flex flex-col justify-center p-2">

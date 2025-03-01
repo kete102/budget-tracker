@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { RegisterUser } from './types'
+import { LoginUser, RegisterUser } from './types'
 import apiClient from '../api/api-client'
 
 interface SuccessResult {
@@ -14,7 +14,7 @@ interface ErrorResult {
 
 type RegisterResult = SuccessResult | ErrorResult
 
-export async function register(
+export async function registerUser(
 	userData: RegisterUser
 ): Promise<RegisterResult> {
 	try {
@@ -29,10 +29,33 @@ export async function register(
 		}
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
-			// Manejo específico de errores de Axios
 			return {
 				success: false,
 				error: 'Registration failed',
+			}
+		}
+		return {
+			success: false,
+			error: 'Unexpected error occurred',
+		}
+	}
+}
+export async function loginUser(
+	userData: LoginUser
+): Promise<RegisterResult> {
+	try {
+		const response = await apiClient.post('/auth/login', userData)
+
+		const accessToken = response.data.accessToken
+		return {
+			success: true,
+			data: accessToken,
+		}
+	} catch (error) {
+		if (axios.isAxiosError(error)) {
+			return {
+				success: false,
+				error: 'Login failed',
 			}
 		}
 		return {

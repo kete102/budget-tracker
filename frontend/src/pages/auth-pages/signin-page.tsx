@@ -1,4 +1,5 @@
 import FieldInfo from '@/components/auth/field-info';
+import { useAuthService } from '@/hooks/useAuthService';
 import { formOptions, useForm } from '@tanstack/react-form';
 import { Link } from 'react-router';
 import z from 'zod';
@@ -19,12 +20,15 @@ const formOpts = formOptions({
 });
 
 function SignInPage() {
+	const { signInUser } = useAuthService()
+
 	const form = useForm({
 		...formOpts,
 		onSubmit: async ({ value }) => {
-			console.log(value)
+			signInUser(value)
 		},
 	});
+
 
 	return (
 		<div className="h-full w-full flex flex-col justify-center p-2">

@@ -7,6 +7,8 @@ export const signUpSchema = z.object({
 });
 
 export type RegisterUser = z.infer<typeof signUpSchema>
+export type LoginUser = Omit<z.infer<typeof signUpSchema>, 'username'>;
+
 export type APIUser = {
 	id: string;
 	email: string;
