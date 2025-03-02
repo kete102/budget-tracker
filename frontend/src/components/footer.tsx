@@ -8,7 +8,7 @@ function Footer() {
       <p className='text-neutral-200 text-lg font-medium'>Budget Tracker &copy;</p>
       <h3 className="text-neutral-200 text-md font-medium">
         Made by {''}
-        <Link to="https://github.com/kete102" className="inline-flex underline underline-offset-2 items-center gap-x-2">
+        <Link viewTransition to="https://github.com/kete102" className="inline-flex underline underline-offset-2 items-center gap-x-2">
           Flavius Catalin <Github className="size-5" />
         </Link>
       </h3>
