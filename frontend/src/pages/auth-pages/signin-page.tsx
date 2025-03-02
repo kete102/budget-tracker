@@ -33,8 +33,8 @@ function SignInPage() {
 	return (
 		<div className="h-full w-full flex flex-col justify-center p-2">
 			<div className="w-full max-w-md md:max-w-lg mx-auto bg-neutral-500/20 border-2 border-neutral-700 p-6 rounded-lg">
-				<h1 className="text-neutral-100 font-medium text-3xl text-center mb-4">
-					Login
+				<h1 className="text-neutral-100 font-medium text-3xl text-center mb-8">
+					Welcome back
 				</h1>
 				<form
 					onSubmit={(e) => {
