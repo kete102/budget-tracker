@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
-	return <div className='h-screen bg-neutral-950 p-4'>{children}</div>
+	return <div className='h-screen w-full'>{children}</div>
 }
 
 export default RootLayout
