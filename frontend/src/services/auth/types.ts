@@ -15,3 +15,15 @@ export type APIUser = {
 	username: string
 }
 export type User = Omit<APIUser, 'id'>
+
+interface SuccessResult {
+	success: true
+	data: string
+}
+
+interface ErrorResult {
+	success: false
+	error: string
+}
+
+export type RegisterResult = SuccessResult | ErrorResult
