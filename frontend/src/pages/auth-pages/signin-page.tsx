@@ -93,7 +93,7 @@ function SignInPage() {
 							<button
 								type="submit"
 								disabled={!canSubmit}
-								className="w-full text-center text-xl bg-neutral-100 active:scale-95 transition-transform duration-200 rounded-md py-2 text-neutral-900 font-medium mt-6"
+								className="w-full cursor-pointer text-center text-xl bg-neutral-100 active:scale-95 transition-transform duration-200 rounded-md py-2 text-neutral-900 font-medium mt-6"
 							>
 								{isSubmitting ? '...' : 'Log in'}
 							</button>
@@ -104,7 +104,7 @@ function SignInPage() {
 					Don&apos;t have an account?{' '}
 					<Link
 						to="/sign-up"
-						className="underline underline-offset-2"
+						className="underline underline-offset-2 cursor-pointer"
 						viewTransition
 					>
 						Sign up

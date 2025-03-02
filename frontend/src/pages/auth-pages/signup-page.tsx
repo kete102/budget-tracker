@@ -111,7 +111,7 @@ function SignUpPage() {
 							<button
 								type="submit"
 								disabled={!canSubmit}
-								className="w-full hover:cursor-pointer text-center text-xl bg-neutral-100 active:scale-95 transition-transform duration-200 rounded-md py-2 text-neutral-900 font-medium mt-6"
+								className="w-full cursor-pointer text-center text-xl bg-neutral-100 active:scale-95 transition-transform duration-200 rounded-md py-2 text-neutral-900 font-medium mt-6"
 							>
 								{isSubmitting ? '...' : 'Create acccount'}
 							</button>
@@ -122,7 +122,7 @@ function SignUpPage() {
 					Already have an account?{' '}
 					<Link
 						to="/sign-in"
-						className="underline underline-offset-2"
+						className="underline cursor-pointer underline-offset-2"
 						viewTransition
 					>
 						Login
