@@ -1,12 +1,12 @@
 import { LoginUser, RegisterUser } from '@/services/auth/types'
 import { useNavigate } from 'react-router'
 import { useAuth } from './useAuth'
-import { registerUser, loginUser } from '@/services/auth/auth-service'
+import { registerUser, loginUser, logoutUser } from '@/services/auth/auth-service'
 import toast from 'react-hot-toast'
 
 export function useAuthService() {
 	const navigate = useNavigate()
-	const { login } = useAuth()
+	const { login, logout } = useAuth()
 
 	const signUpUser = async (userData: RegisterUser) => {
 		try {
@@ -16,7 +16,7 @@ export function useAuthService() {
 				toast.error(result.error)
 			} else {
 				login(result.data)
-				navigate({ pathname: '/dashboard' })
+				navigate('/dashboard', { replace: true })
 			}
 		} catch (error) {
 			console.error(error)
@@ -37,8 +37,24 @@ export function useAuthService() {
 			console.error(error)
 		}
 	}
+
+	const signOutUser = async () => {
+		try {
+			const result = await logoutUser()
+			if (!result.success) {
+				toast.error(result.message)
+			} else {
+				logout()
+				navigate('/', { replace: true })
+			}
+
+		} catch (error) {
+			console.error(error)
+		}
+	}
 	return {
 		signUpUser,
-		signInUser
+		signInUser,
+		signOutUser
 	}
 }

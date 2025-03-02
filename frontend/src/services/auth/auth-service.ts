@@ -1,18 +1,7 @@
 import axios from 'axios'
-import { LoginUser, RegisterUser } from './types'
+import { LoginUser, RegisterResult, RegisterUser } from './types'
 import apiClient from '../api/api-client'
 
-interface SuccessResult {
-	success: true
-	data: string
-}
-
-interface ErrorResult {
-	success: false
-	error: string
-}
-
-type RegisterResult = SuccessResult | ErrorResult
 
 export async function registerUser(
 	userData: RegisterUser
@@ -40,6 +29,7 @@ export async function registerUser(
 		}
 	}
 }
+
 export async function loginUser(
 	userData: LoginUser
 ): Promise<RegisterResult> {
@@ -61,6 +51,22 @@ export async function loginUser(
 		return {
 			success: false,
 			error: 'Unexpected error occurred',
+		}
+	}
+}
+
+export async function logoutUser() {
+	try {
+		await apiClient.post('/auth/logout')
+		return {
+			success: true,
+			message: 'Logged out'
+		}
+	} catch (error) {
+		console.error('Logout failed', error)
+		return {
+			success: false,
+			message: 'Error loggin out'
 		}
 	}
 }
