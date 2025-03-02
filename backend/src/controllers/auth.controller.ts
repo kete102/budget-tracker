@@ -112,6 +112,25 @@ class AuthController {
 		return res.status(200).json({ accessToken })
 	}
 
+	static async logoutUser(req: Request, res: Response) {
+		console.log('logout')
+		try {
+			if (!req.cookies.refresh_token) {
+				return res.status(401).json({ message: "Unauthorized" })
+			}
+
+			res.clearCookie('refresh_token', {
+				httpOnly: true,
+				secure: processEnv.NODE_ENV === 'production',
+				sameSite: "strict"
+			})
+			return res.json({ message: 'logged out' })
+		} catch (error) {
+			console.log('Logout error: ', error)
+			return res.status(500).json({ message: "Logout failed" })
+		}
+	}
+
 	static async checkAuth(req: Request, res: Response) {
 		const refreshToken = req.cookies?.refresh_token; // Accede al refresh token desde las cookies
 
