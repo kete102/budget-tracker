@@ -1,5 +1,5 @@
 import FieldInfo from '@/components/auth/field-info';
-import { useAuthService } from '@/hooks/useAuthService';
+import { useAuthService } from '@/hooks/use-auth-service';
 import { formOptions, useForm } from '@tanstack/react-form';
 import { Link } from 'react-router';
 import z from 'zod';
