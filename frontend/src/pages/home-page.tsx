@@ -1,6 +1,9 @@
+import Header from "@/components/header"
+
 function HomePage() {
   return (
-    <div className="w-full h-full bg-white/5">
+    <div className="w-full h-full p-2">
+      <Header />
       <h1 className="text-neutral-100">
         Home Page
       </h1>
