@@ -123,6 +123,7 @@ function SignUpPage() {
 					<Link
 						to="/sign-in"
 						className="underline underline-offset-2"
+						viewTransition
 					>
 						Login
 					</Link>

@@ -105,6 +105,7 @@ function SignInPage() {
 					<Link
 						to="/sign-up"
 						className="underline underline-offset-2"
+						viewTransition
 					>
 						Sign up
 					</Link>
