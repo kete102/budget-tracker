@@ -1,16 +1,22 @@
-import Header from '../header'
-import Footer from '../footer'
-import { Navigate, Outlet } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
+import { Navigate, Outlet } from 'react-router'
+import Footer from '../footer'
+import Header from '../header'
 
 const PrivatePagesLayout = () => {
 	const { token } = useAuth()
-	if (!token) return <Navigate to='/sign-in' replace />
+	if (!token)
+		return (
+			<Navigate
+				to="/sign-in"
+				replace
+			/>
+		)
 
 	return (
-		<div className='h-full bg-neutral-950 flex flex-col w-full p-4'>
+		<div className="flex h-full w-full flex-col bg-neutral-950 p-4">
 			<Header />
-			<main className='container mx-auto grow'>
+			<main className="container mx-auto grow">
 				<Outlet />
 			</main>
 			<Footer />

@@ -1,20 +1,28 @@
-import Footer from "@/components/footer"
-import Header from "@/components/header"
-import { Link } from "react-router"
+import Footer from '@/components/footer'
+import Header from '@/components/header'
+import { Link } from 'react-router'
 
 function NotFound() {
-  return (
-    <div className="w-full h-full text-center flex flex-col p-2">
-      <section className="flex grow flex-col items-center text-center justify-center">
-        <Header />
-        <h1 className="text-neutral-400 text-xl mt-4">Oops, something wrong ocurred</h1>
-        <p className="text-neutral-400 text-2xl font-bold mb-4">404 - Not found</p>
-        <Link to='/' className="text-neutral-900 bg-neutral-100 text-lg font-semibold text-center px-4 py-2 rounded-md ">Return to homepage</Link>
-      </section>
-      <Footer />
-    </div>
-  )
+	return (
+		<div className="flex h-full w-full flex-col p-2 text-center">
+			<section className="flex grow flex-col items-center justify-center text-center">
+				<Header />
+				<h1 className="mt-4 text-xl text-neutral-400">
+					Oops, something wrong ocurred
+				</h1>
+				<p className="mb-4 text-2xl font-bold text-neutral-400">
+					404 - Not found
+				</p>
+				<Link
+					to="/"
+					className="rounded-md bg-neutral-100 px-4 py-2 text-center text-lg font-semibold text-neutral-900"
+				>
+					Return to homepage
+				</Link>
+			</section>
+			<Footer />
+		</div>
+	)
 }
 
 export default NotFound
-

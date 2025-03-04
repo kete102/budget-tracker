@@ -1,8 +1,12 @@
+import {
+	loginUser,
+	logoutUser,
+	registerUser,
+} from '@/services/auth/auth-service'
 import { LoginUser, RegisterUser } from '@/services/auth/types'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { useAuth } from './useAuth'
-import { registerUser, loginUser, logoutUser } from '@/services/auth/auth-service'
-import toast from 'react-hot-toast'
 
 export function useAuthService() {
 	const navigate = useNavigate()
@@ -47,7 +51,6 @@ export function useAuthService() {
 				logout()
 				navigate('/', { replace: true })
 			}
-
 		} catch (error) {
 			console.error(error)
 		}
@@ -55,6 +58,6 @@ export function useAuthService() {
 	return {
 		signUpUser,
 		signInUser,
-		signOutUser
+		signOutUser,
 	}
 }

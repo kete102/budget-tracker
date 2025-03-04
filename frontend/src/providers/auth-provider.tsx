@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 					originalRequest._retry = true
 
 					try {
-						const response = await apiClient.get("/auth/refresh")
+						const response = await apiClient.get('/auth/refresh')
 
 						setToken(response.data.accessToken)
 
@@ -71,7 +71,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 		return () => {
 			apiClient.interceptors.response.eject(refreshInterceptor)
 		}
-	},)
+	})
 
 	return (
 		<AuthContext.Provider value={{ token, login, logout }}>
