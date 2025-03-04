@@ -1,13 +1,14 @@
 import express from "express";
-import AuthController from "../controllers/auth.controller";
+import UserController from "../controllers/auth.controller";
 import { verifyAccessToken } from "../middlewares/verifyJWT";
 
-const authRouter = express.Router();
+const userRouter = express.Router();
 
-authRouter.get("/check-auth", AuthController.checkAuth);
-authRouter.post("/register", AuthController.registerUser);
-authRouter.post("/login", AuthController.loginUser);
-authRouter.post("/logout", verifyAccessToken, AuthController.logoutUser);
-authRouter.post("/refresh", verifyAccessToken, AuthController.refreshToken);
+userRouter.get("/check-auth", UserController.checkAuth);
+userRouter.get("/overview", verifyAccessToken, UserController.getUserDashboard);
+userRouter.post("/register", UserController.registerUser);
+userRouter.post("/login", UserController.loginUser);
+userRouter.post("/logout", verifyAccessToken, UserController.logoutUser);
+userRouter.post("/refresh", verifyAccessToken, UserController.refreshToken);
 
-export default authRouter;
+export default userRouter;

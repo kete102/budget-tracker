@@ -1,8 +1,8 @@
 import express, { json, type Response } from "express";
-import authRoutes from "./routes/auth.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { allowedOrigins } from "./config";
+import userRouter from "./routes/auth.routes";
 
 const app = express();
 app.use(
@@ -24,7 +24,7 @@ app.get("/api", (_, res) => {
   res.send({ message: "Welcome to backend!" });
 });
 
-app.use("/api/auth", authRoutes);
+app.use("/api/user", userRouter);
 
 const port = process.env["PORT"] || 4000;
 const server = app.listen(port, () => {

@@ -4,10 +4,11 @@ import { loginSchema, registerSchema, UserModel } from "../models/user.model";
 import { processEnv } from "../config";
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import { PublicUser, User } from "../db/schemas/user.schema";
+import { AuthRequest } from "../middlewares/types";
 
 const JWT_REFRESH = processEnv.JWT_SECRET_REFRESH;
 
-class AuthController {
+class UserController {
   static async registerUser(req: Request, res: Response) {
     const { email, username, password } = req.body;
     //NOTE: Validate the body
@@ -170,6 +171,15 @@ class AuthController {
       return res.status(403).json({ message: "Unauthorized" });
     }
   }
+
+  static async getUserDashboard(req: AuthRequest, res: Response) {
+    const userId = req.user.id;
+
+    if (!userId) return res.status(404).json({ message: "Unauthorized" });
+
+    const data = await UserModel.getUserOverview({ userId });
+    return res.status(200).json(data);
+  }
 }
 
-export default AuthController;
+export default UserController;
