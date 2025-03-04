@@ -1,24 +1,20 @@
 import { AxiosError } from 'axios'
+import { type GetUserOverview } from '../../../../shared/user/types.ts'
 import apiClient from '../api/api-client'
 
-export async function getUserData() {
+export async function getUserData(): Promise<GetUserOverview> {
 	try {
 		const response = await apiClient.get('/user/overview')
 
-		return {
-			success: true,
-			data: response.data,
+		if (!response.data) {
+			throw new Error('Error fetching user data')
 		}
+
+		return response.data
 	} catch (error) {
 		if (error instanceof AxiosError) {
-			return {
-				success: false,
-				error: 'Login failed',
-			}
+			throw new Error('Login failed')
 		}
-		return {
-			success: false,
-			error: 'Unexpected error occurred',
-		}
+		throw new Error('Unexpected error occurred')
 	}
 }
