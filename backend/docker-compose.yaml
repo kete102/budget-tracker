@@ -1,7 +1,4 @@
-version: '3.9'
-
 services:
-
   db:
     image: postgres
     restart: always
@@ -22,4 +19,3 @@ networks:
 
 volumes:
   postgres-data:
-

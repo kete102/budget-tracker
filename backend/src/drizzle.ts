@@ -1,5 +1,4 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import { processEnv } from './config'
+import { drizzle } from "drizzle-orm/postgres-js";
+import { processEnv } from "./config";
 
-export const db = drizzle(processEnv.POSTGRES_URL)
-
+export const db = drizzle(processEnv.POSTGRES_URL);
