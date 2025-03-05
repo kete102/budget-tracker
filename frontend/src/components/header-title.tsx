@@ -9,7 +9,7 @@ function HeaderTitle({ styles }: Props) {
 		<Link
 			to="/"
 			viewTransition
-			className={`inline-flex items-center gap-x-1 text-center text-5xl font-bold tracking-tight text-neutral-50 md:text-6xl ${styles}`}
+			className={`inline-flex items-center gap-x-1 text-center text-3xl font-bold tracking-tight md:text-6xl dark:text-neutral-50 ${styles}`}
 		>
 			<CircleDollarSign
 				className="size-7"

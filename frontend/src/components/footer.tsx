@@ -3,11 +3,11 @@ import { Link } from 'react-router'
 
 function Footer() {
 	return (
-		<footer className="sticky mx-auto flex w-full items-center justify-between rounded-md bg-neutral-100/5 p-4 text-center">
-			<p className="text-lg font-medium text-neutral-200">
+		<footer className="mx-auto mt-8 flex w-full items-center justify-between rounded-md bg-neutral-900 p-4 text-center text-neutral-300 dark:bg-neutral-100/5">
+			<p className="text-sm font-medium dark:text-neutral-200">
 				Budget Tracker &copy;
 			</p>
-			<h3 className="text-md font-medium text-neutral-200">
+			<h3 className="text-sm font-medium dark:text-neutral-200">
 				Made by {''}
 				<Link
 					viewTransition
