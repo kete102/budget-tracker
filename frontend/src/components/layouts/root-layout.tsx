@@ -12,7 +12,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<ThemeProvider defaultTheme="dark">
-			<div className="flex h-screen w-full">
+			<div className="flex h-screen w-full transition-colors duration-700">
 				<Sidebar
 					isOpen={isSidebarOpen}
 					toggleSidebar={toggleSidebar}

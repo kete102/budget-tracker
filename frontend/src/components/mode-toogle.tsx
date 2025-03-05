@@ -1,36 +1,47 @@
 import { Button } from '@/components/ui/button'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { useTheme } from '@/hooks/use-theme'
 import { Moon, Sun } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 
 export function ModeToggle() {
-	const { setTheme } = useTheme()
+	const { setTheme, theme } = useTheme()
+
+	const toggleTheme = () => {
+		setTheme(theme === 'dark' ? 'light' : 'dark')
+	}
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button
-					variant="outline"
-					size="icon"
-				>
-					<Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-					<Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-					<span className="sr-only">Toggle theme</span>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme('light')}>
-					Light
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme('dark')}>
-					Dark
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<Button
+			variant="outline"
+			size="icon"
+			onClick={toggleTheme}
+		>
+			<AnimatePresence mode="wait">
+				{theme === 'dark' ? (
+					<motion.div
+						key="sun"
+						initial={{ y: 20, opacity: 0, rotate: -90 }}
+						animate={{ y: 0, opacity: 1, rotate: 0 }}
+						exit={{ y: -20, opacity: 0, rotate: 90 }}
+						transition={{ duration: 0.2 }}
+						className="absolute"
+					>
+						<Sun className="h-[1.2rem] w-[1.2rem]" />
+					</motion.div>
+				) : (
+					<motion.div
+						key="moon"
+						initial={{ y: -20, opacity: 0, rotate: 90 }}
+						animate={{ y: 0, opacity: 1, rotate: 0 }}
+						exit={{ y: 20, opacity: 0, rotate: -90 }}
+						transition={{ duration: 0.2 }}
+						className="absolute"
+					>
+						<Moon className="h-[1.2rem] w-[1.2rem]" />
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<span className="sr-only">Toggle theme</span>
+		</Button>
 	)
 }
