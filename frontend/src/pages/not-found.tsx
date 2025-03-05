@@ -1,12 +1,11 @@
-import Footer from '@/components/footer'
-import Header from '@/components/header'
+import HeaderTitle from '@/components/header-title'
 import { Link } from 'react-router'
 
 function NotFound() {
 	return (
 		<div className="flex h-full w-full flex-col p-2 text-center">
 			<section className="flex grow flex-col items-center justify-center text-center">
-				<Header />
+				<HeaderTitle />
 				<h1 className="mt-4 text-xl text-neutral-400">
 					Oops, something wrong ocurred
 				</h1>
@@ -20,7 +19,6 @@ function NotFound() {
 					Return to homepage
 				</Link>
 			</section>
-			<Footer />
 		</div>
 	)
 }
