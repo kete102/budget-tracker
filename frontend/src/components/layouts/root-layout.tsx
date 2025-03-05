@@ -21,7 +21,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 					<div className="flex w-full items-center justify-between p-2">
 						<button
 							onClick={() => toggleSidebar()}
-							className="cursor-pointer rounded-md border border-neutral-500 p-1 dark:border-neutral-800"
+							className="cursor-pointer rounded-md border p-1"
 						>
 							<Menu />
 						</button>

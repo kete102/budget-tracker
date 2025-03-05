@@ -16,7 +16,7 @@ function SidebarTitle({ isOpen, toggleSidebar }: Props) {
 				<div className="flex w-full items-center justify-between">
 					<button
 						onClick={toggleSidebar}
-						className="cursor-pointer rounded-md border-[1px] border-neutral-800 p-1"
+						className="cursor-pointer rounded-md border p-1 dark:border-neutral-800"
 					>
 						<X />
 					</button>
