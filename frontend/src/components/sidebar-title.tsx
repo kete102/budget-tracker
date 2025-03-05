@@ -1,36 +1,31 @@
-import { CircleDollarSign, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { motion } from 'motion/react'
+import { Button } from './ui/button'
 
 interface Props {
 	isOpen: boolean
 	toggleSidebar: () => void
 }
 
-function SidebarTitle({ isOpen, toggleSidebar }: Props) {
+function SidebarHeader({ isOpen, toggleSidebar }: Props) {
 	return (
 		<motion.div
 			layout
-			className="border-b border-neutral-800 p-2 pb-3"
+			className=""
 		>
 			{isOpen && (
-				<div className="flex w-full items-center justify-between">
-					<button
+				<div className="flex-start flex w-full p-2">
+					<Button
+						variant="outline"
+						size="icon"
 						onClick={toggleSidebar}
-						className="cursor-pointer rounded-md border p-1 dark:border-neutral-800"
 					>
 						<X />
-					</button>
-					<h1 className="inline-flex items-center gap-x-1 text-center text-3xl font-bold tracking-tight select-none md:text-6xl dark:text-neutral-50">
-						<CircleDollarSign
-							className="size-7"
-							stroke="currentColor"
-						/>
-						Budget Tracker
-					</h1>
+					</Button>
 				</div>
 			)}
 		</motion.div>
 	)
 }
 
-export default SidebarTitle
+export default SidebarHeader
