@@ -8,6 +8,20 @@
       "when": 1740672547636,
       "tag": "0000_familiar_luminals",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741086842894,
+      "tag": "0001_large_blue_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741089920417,
+      "tag": "0002_lyrical_ricochet",
+      "breakpoints": true
     }
   ]
 }
