@@ -18,3 +18,20 @@ export async function getUserData(): Promise<GetUserOverview> {
 		throw new Error('Unexpected error occurred')
 	}
 }
+
+export async function updateUserCurrency(currency: string) {
+	console.log('update currency')
+	try {
+		await apiClient.put('/user/update', { currency })
+		return {
+			success: true,
+			message: 'Currency updated',
+		}
+	} catch (error) {
+		console.error('Curreny update failed', error)
+		return {
+			success: false,
+			message: 'Error updating user currency',
+		}
+	}
+}

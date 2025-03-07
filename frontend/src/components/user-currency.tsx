@@ -1,7 +1,11 @@
 import { CURRENCIES } from '@/consts/currencies'
+import { useUserResume } from '@/hooks/use-user-service'
 import { cn } from '@/lib/utils'
-import { Check, ChevronsUpDown } from 'lucide-react'
-import { useState } from 'react'
+import { updateUserCurrency } from '@/services/user/user-service'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Check, ChevronsUpDown, Ellipsis } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { Button } from './ui/button'
 import {
 	Command,
@@ -14,14 +18,54 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 function UserCurrency() {
+	const queryClient = useQueryClient()
+	const { data, isLoading } = useUserResume()
 	const [open, setOpen] = useState(false)
 	const [currentCurrency, setCurrentCurrency] = useState<
 		(typeof CURRENCIES)[0]
 	>(CURRENCIES[0])
-
+	//NOTE: Finds the user currency from the backend in the CURRENCIES array
 	const selectedCurrency = CURRENCIES.find(
 		(currency) => currency.value === currentCurrency.value
 	)
+
+	//NOTE:Sets the user currency on the picker
+	useEffect(() => {
+		if (data) {
+			const currency = CURRENCIES.find(
+				(currency) => currency.value === data.userResume.currency
+			)
+			if (currency) {
+				setCurrentCurrency(currency)
+			}
+		}
+	}, [data])
+
+	const { mutate: updateCurrency } = useMutation({
+		mutationKey: ['update-user-currency'],
+		mutationFn: (newCurrenty: string) => {
+			return updateUserCurrency(newCurrenty)
+		},
+		onMutate: (newCurrency) => {
+			const previousCurrency = currentCurrency
+			setCurrentCurrency(
+				CURRENCIES.find((c) => c.value === newCurrency) || CURRENCIES[0]
+			)
+
+			return { previousCurrency }
+		},
+		onError: () => {
+			toast.error('Error updating currency')
+		},
+		onSuccess: () => {
+			toast.success('Currency updated')
+			queryClient.invalidateQueries({ queryKey: ['user-resume'] })
+		},
+	})
+
+	if (isLoading) {
+		return <Ellipsis />
+	}
 
 	return (
 		<Popover
@@ -60,11 +104,14 @@ function UserCurrency() {
 										const selectedCurrency = CURRENCIES.find(
 											(c) => c.value === currentValue
 										)
-										setCurrentCurrency(
-											selectedCurrency?.value === currentCurrency.value
-												? CURRENCIES[0]
-												: selectedCurrency!
-										)
+										if (selectedCurrency) {
+											setCurrentCurrency(
+												selectedCurrency?.value === currentCurrency.value
+													? CURRENCIES[0]
+													: selectedCurrency!
+											)
+											updateCurrency(selectedCurrency.value)
+										}
 										setOpen(false)
 									}}
 								>
