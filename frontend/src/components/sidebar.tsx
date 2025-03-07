@@ -11,7 +11,7 @@ function Sidebar({ isOpen, toggleSidebar }: Props) {
 			{isOpen && (
 				<motion.nav
 					layout
-					className={`border-r-accent bg-background absolute top-0 z-100 h-screen shrink-0 overflow-hidden border-r p-2 ${isOpen ? 'w-full lg:w-64' : ''}`}
+					className={`border-r-accent bg-background absolute top-0 z-100 h-screen shrink-0 overflow-hidden border-r p-2 ${isOpen ? 'w-full lg:w-72' : ''}`}
 					initial={{ opacity: 0, x: '-100%' }}
 					animate={{ opacity: 1, x: 0 }}
 					exit={{ opacity: 0, x: '-100%' }}
