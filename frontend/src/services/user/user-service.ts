@@ -20,7 +20,6 @@ export async function getUserData(): Promise<GetUserOverview> {
 }
 
 export async function updateUserCurrency(currency: string) {
-	console.log('update currency')
 	try {
 		await apiClient.put('/user/update', { currency })
 		return {
