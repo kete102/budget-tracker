@@ -43,7 +43,7 @@ function SidebarContent({ toggleSidebar, isOpen }: Props) {
 				</div>
 			</section>
 			<section className="flex w-full items-center justify-between p-2">
-				<p className="text-muted-foreground text-center font-semibold">
+				<p className="text-muted-foreground text-center text-sm font-semibold">
 					&copy;Budget Tracker
 				</p>
 				<h3 className="text-muted-foreground text-sm font-medium">
