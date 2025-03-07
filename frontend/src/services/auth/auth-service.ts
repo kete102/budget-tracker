@@ -6,7 +6,7 @@ export async function registerUser(
 	userData: RegisterUser
 ): Promise<RegisterResult> {
 	try {
-		const response = await apiClient.post('/user/register', userData)
+		const response = await apiClient.post('/auth/register', userData)
 
 		const accessToken = response.data.accessToken
 		return {
@@ -29,7 +29,7 @@ export async function registerUser(
 
 export async function loginUser(userData: LoginUser): Promise<RegisterResult> {
 	try {
-		const response = await apiClient.post('/user/login', userData)
+		const response = await apiClient.post('/auth/login', userData)
 
 		const accessToken = response.data.accessToken
 
@@ -53,7 +53,7 @@ export async function loginUser(userData: LoginUser): Promise<RegisterResult> {
 
 export async function logoutUser() {
 	try {
-		await apiClient.post('/user/logout')
+		await apiClient.post('/auth/logout')
 		return {
 			success: true,
 			message: 'Logged out',

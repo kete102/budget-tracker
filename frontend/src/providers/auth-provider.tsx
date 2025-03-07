@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		const fetchMe = async () => {
 			try {
-				const response = await apiClient.get('/user/check-auth')
+				const response = await apiClient.get('/auth/check-auth')
 				setToken(response.data.accessToken)
 			} catch {
 				setToken(null)
@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 					originalRequest._retry = true
 
 					try {
-						const response = await apiClient.get('/user/refresh')
+						const response = await apiClient.get('/auth/refresh')
 
 						setToken(response.data.accessToken)
 
