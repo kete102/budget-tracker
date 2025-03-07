@@ -1,6 +1,9 @@
 export interface UserResume {
+  id: string;
   username: string;
   email: string;
+  password_hash: string;
+  currency: string;
   balance: string;
   totalIncome: string;
   totalExpenses: string;
