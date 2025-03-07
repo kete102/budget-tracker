@@ -7,10 +7,12 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import UserCurrency from '@/components/user-currency'
+import { CURRENCIES } from '@/consts/currencies'
 import { useUserResume } from '@/hooks/use-user-service'
 import {
 	Activity,
 	ArrowRight,
+	Ellipsis,
 	PiggyBank,
 	SquareArrowDownRight,
 	SquareArrowUpRight,
@@ -20,17 +22,23 @@ import {
 import { Link } from 'react-router'
 
 function DashboardPage() {
-	const { data, isFetching } = useUserResume()
+	const { data, isLoading } = useUserResume()
 
 	if (!data) {
 		return <div className="text-foreground">No username</div>
 	}
 
-	// const isBalancePositive = Number(data?.userResume.balance) > 0
-
-	if (isFetching) {
-		return <div className="text-foreground">Loading...</div>
+	if (isLoading) {
+		return (
+			<div className="grid h-full w-full place-content-center">
+				<Ellipsis className="size-10" />
+			</div>
+		)
 	}
+
+	const userCurrency = CURRENCIES.find(
+		(currency) => currency.value === data.userResume.currency
+	)
 
 	return (
 		<div className="flex h-full w-full flex-col gap-y-4 p-2">
@@ -67,7 +75,7 @@ function DashboardPage() {
 						<h2
 							className={`text-foreground inline-flex items-center gap-x-2 text-2xl font-bold`}
 						>
-							$ {data.userResume.balance}
+							{data.userResume.balance} {userCurrency?.symbol}
 						</h2>
 					</CardContent>
 					<CardHeader>
@@ -83,7 +91,7 @@ function DashboardPage() {
 				<Card className="bg-background col-span-2 row-span-2 row-start-4">
 					<CardContent>
 						<h2 className="inline-flex items-center gap-x-2 text-2xl font-bold text-green-600">
-							+ {data.userResume.totalIncome}
+							+ {data.userResume.totalIncome} {userCurrency?.symbol}
 						</h2>
 					</CardContent>
 					<CardHeader className="flex w-full flex-col items-start justify-between md:flex-row md:items-center">
@@ -109,7 +117,7 @@ function DashboardPage() {
 				<Card className="bg-background col-span-2 col-start-3 row-span-2 row-start-4">
 					<CardContent>
 						<h2 className="inline-flex items-center gap-x-2 text-2xl font-bold text-red-600">
-							- {data.userResume.totalExpenses}
+							- {data.userResume.totalExpenses} {userCurrency?.symbol}
 						</h2>
 					</CardContent>
 					<CardHeader className="flex w-full flex-col items-start justify-between md:flex-row md:items-center">
