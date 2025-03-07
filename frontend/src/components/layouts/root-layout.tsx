@@ -2,6 +2,7 @@ import { useSidebar } from '@/hooks/use-sidebar'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { Menu } from 'lucide-react'
 import { ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 import HeaderTitle from '../header-title'
 import { ModeToggle } from '../mode-toogle'
 import Sidebar from '../sidebar'
@@ -13,6 +14,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<ThemeProvider defaultTheme="dark">
 			<div className="flex h-screen w-full transition-colors duration-700">
+				<Toaster position="bottom-center" />
 				<Sidebar
 					isOpen={isSidebarOpen}
 					toggleSidebar={toggleSidebar}
