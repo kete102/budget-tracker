@@ -3,9 +3,16 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import {
+	ChartConfig,
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from '@/components/ui/chart'
 import UserCurrency from '@/components/user-currency'
 import { CURRENCIES } from '@/consts/currencies'
 import { useUserResume } from '@/hooks/use-user-service'
@@ -20,6 +27,7 @@ import {
 	TrendingUp,
 } from 'lucide-react'
 import { Link } from 'react-router'
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
 function DashboardPage() {
 	const { data, isLoading } = useUserResume()
@@ -40,6 +48,26 @@ function DashboardPage() {
 		(currency) => currency.value === data.userResume.currency
 	)
 
+	const chartData = [
+		{ month: 'January', desktop: 186, mobile: 80 },
+		{ month: 'February', desktop: 305, mobile: 200 },
+		{ month: 'March', desktop: 237, mobile: 120 },
+		{ month: 'April', desktop: 73, mobile: 190 },
+		{ month: 'May', desktop: 209, mobile: 130 },
+		{ month: 'June', desktop: 214, mobile: 140 },
+	]
+
+	const chartConfig = {
+		desktop: {
+			label: 'Desktop',
+			color: 'hsl(var(--chart-1))',
+		},
+		mobile: {
+			label: 'Mobile',
+			color: 'hsl(var(--chart-2))',
+		},
+	} satisfies ChartConfig
+
 	return (
 		<div className="flex h-full w-full flex-col gap-y-4 p-2">
 			<section className="flex w-full items-center justify-between">
@@ -49,28 +77,25 @@ function DashboardPage() {
 				<UserCurrency />
 			</section>
 
-			<section className="my-4 grid grid-cols-4 grid-rows-10 gap-4">
-				<Card className="bg-foreground text-accent col-span-2 rounded-lg">
-					<CardHeader>
-						<CardTitle className="flex flex-row items-center justify-center gap-x-2">
-							<SquareArrowDownRight />
-							New income
-						</CardTitle>
-					</CardHeader>
-				</Card>
-
-				<Card className="bg-background text-accent-foreground col-span-2 col-start-3 rounded-lg">
-					<CardHeader>
-						<CardTitle className="flex flex-row items-center justify-center gap-x-2">
-							<SquareArrowUpRight />
-							New expense
-						</CardTitle>
-					</CardHeader>
-				</Card>
-
-				<Card
-					className={`col-span-2 row-span-2 row-start-2 border bg-neutral-900/10 dark:bg-white/5`}
+			<section className="flex w-full flex-col justify-between gap-y-2 md:flex-row md:gap-x-1">
+				<Button
+					variant="default"
+					className="md:w-1/2"
 				>
+					<SquareArrowDownRight />
+					New income
+				</Button>
+				<Button
+					variant="secondary"
+					className="md:w-1/2"
+				>
+					<SquareArrowUpRight />
+					New expense
+				</Button>
+			</section>
+
+			<section className="grid grid-cols-4 grid-rows-4 gap-2 md:grid-rows-6">
+				<Card className="col-span-2 bg-neutral-900/10 dark:bg-white/5">
 					<CardContent>
 						<h2
 							className={`text-foreground inline-flex items-center gap-x-2 text-2xl font-bold`}
@@ -86,9 +111,9 @@ function DashboardPage() {
 					</CardHeader>
 				</Card>
 
-				<Card className="bg-background col-span-2 col-start-3 row-span-2 row-start-2"></Card>
+				<Card className="bg-background col-span-2 col-start-3"></Card>
 
-				<Card className="bg-background col-span-2 row-span-2 row-start-4">
+				<Card className="bg-background col-span-2 row-start-2 w-full">
 					<CardContent>
 						<h2 className="inline-flex items-center gap-x-2 text-2xl font-bold text-green-600">
 							+ {data.userResume.totalIncome} {userCurrency?.symbol}
@@ -114,7 +139,7 @@ function DashboardPage() {
 					</CardHeader>
 				</Card>
 
-				<Card className="bg-background col-span-2 col-start-3 row-span-2 row-start-4">
+				<Card className="bg-background col-span-2 col-start-3 row-start-2 w-full">
 					<CardContent>
 						<h2 className="inline-flex items-center gap-x-2 text-2xl font-bold text-red-600">
 							- {data.userResume.totalExpenses} {userCurrency?.symbol}
@@ -139,7 +164,7 @@ function DashboardPage() {
 					</CardHeader>
 				</Card>
 
-				<Card className="bg-background col-span-4 row-span-full row-start-6">
+				<Card className="bg-background col-span-4 row-span-2 row-start-3 md:row-span-4">
 					<CardHeader className="flex w-full flex-row items-center justify-between">
 						<CardTitle className="flex items-center gap-x-2">
 							<Activity /> Activity
