@@ -14,12 +14,12 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<ThemeProvider defaultTheme="dark">
 			<div className="flex h-screen w-full transition-colors duration-700">
-				<Toaster position="bottom-center" />
-				<Sidebar
-					isOpen={isSidebarOpen}
-					toggleSidebar={toggleSidebar}
-				/>
-				<div className="bg-background flex h-full w-full flex-col items-center p-2">
+				<div className="bg-background flex h-screen w-full flex-col items-center p-2">
+					<Toaster position="bottom-center" />
+					<Sidebar
+						isOpen={isSidebarOpen}
+						toggleSidebar={toggleSidebar}
+					/>
 					<div className="flex w-full items-center justify-between p-2">
 						<Button
 							variant="outline"
